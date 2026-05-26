@@ -1,0 +1,83 @@
+.clients {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  padding: 120px 5vw;
+  background-color: var(--bg);
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2px;
+}
+
+.tile {
+  padding: 32px 20px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 100px;
+}
+
+.tile:hover {
+  border-color: var(--gold-dim);
+  background-color: var(--surface2);
+  color: var(--gold);
+}
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .title {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .clients {
+    padding: 60px 5vw;
+    gap: 40px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tile {
+    padding: 24px;
+    font-size: 10px;
+    min-height: 80px;
+  }
+}

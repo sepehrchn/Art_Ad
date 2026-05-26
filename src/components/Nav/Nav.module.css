@@ -1,0 +1,220 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.nav.scrolled {
+  background-color: rgba(11, 11, 11, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 5vw;
+  gap: 40px;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.logo:hover {
+  color: var(--text);
+}
+
+.links {
+  display: flex;
+  gap: 40px;
+  flex: 1;
+  justify-content: center;
+}
+
+.link {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+  padding-bottom: 4px;
+  border-bottom: 1px solid transparent;
+}
+
+.link:hover {
+  color: var(--text);
+}
+
+.link.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+.languageToggle {
+  display: flex;
+  gap: 2px;
+  background-color: var(--surface);
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.langButton {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+}
+
+.langButton.activeLanguage {
+  color: var(--bg);
+  background-color: var(--gold);
+  border-radius: 2px;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.hamburger span {
+  width: 24px;
+  height: 1px;
+  background-color: var(--text);
+  transition: all 0.3s ease;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg);
+  z-index: 999;
+  padding: 100px 5vw 40px;
+  flex-direction: column;
+  gap: 40px;
+  animation: fadeIn 0.3s ease;
+}
+
+.mobileLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobileLink {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.3s ease;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.mobileLink:hover {
+  color: var(--gold);
+}
+
+.mobileLanguageToggle {
+  display: flex;
+  gap: 2px;
+  background-color: var(--surface);
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  width: fit-content;
+}
+
+.mobileLangButton {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+}
+
+.mobileLangButton.activeLanguage {
+  color: var(--bg);
+  background-color: var(--gold);
+  border-radius: 2px;
+}
+
+@media (max-width: 900px) {
+  .links {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .mobileMenu.open {
+    display: flex;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 16px 5vw;
+    gap: 20px;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+
+  .languageToggle {
+    display: none;
+  }
+}

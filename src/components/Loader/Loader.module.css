@@ -1,0 +1,53 @@
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--bg);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: loaderFadeOut 0.8s var(--ease-exit) forwards;
+  animation-delay: 2s;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.progressBar {
+  width: 200px;
+  height: 1px;
+  background-color: var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: var(--gold);
+  animation: loaderProgress 1.6s linear forwards;
+}
+
+.counter {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+}
+
+@media (max-width: 600px) {
+  .progressBar {
+    width: 120px;
+  }
+
+  .counter {
+    font-size: 24px;
+  }
+}

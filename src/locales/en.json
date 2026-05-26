@@ -1,0 +1,214 @@
+{
+  "nav": {
+    "work": "Work",
+    "services": "Services",
+    "studio": "Studio",
+    "founder": "Founder",
+    "journal": "Journal",
+    "contact": "Contact"
+  },
+  "hero": {
+    "eyebrow": "Art Direction — Advertising — Creative Strategy",
+    "title": "Where Art Shapes Attention.",
+    "titleArt": "Art",
+    "subtitle": "We craft brand experiences that transcend the ordinary. Through meticulous art direction and strategic creative thinking, we transform ideas into moments that captivate, persuade, and endure.",
+    "cta1": "View Our Work",
+    "cta2": "Start a Project",
+    "scrollHint": "Scroll to explore"
+  },
+  "services": {
+    "title": "Services",
+    "service1": {
+      "name": "Brand Worlds",
+      "number": "01",
+      "tags": ["Identity", "Typography", "Motion"]
+    },
+    "service2": {
+      "name": "Campaign Experiences",
+      "number": "02",
+      "tags": ["Strategy", "Copywriting", "Media"]
+    },
+    "service3": {
+      "name": "Creative Production",
+      "number": "03",
+      "tags": ["Film", "Installation", "Digital Art"]
+    },
+    "service4": {
+      "name": "Strategic Creative",
+      "number": "04",
+      "tags": ["Consulting", "Research", "Positioning"]
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "item1": {
+      "category": "Luxury Brand",
+      "name": "Aurum Luxury Group"
+    },
+    "item2": {
+      "category": "Tech Launch",
+      "name": "Nova Tech"
+    },
+    "item3": {
+      "category": "Art Direction",
+      "name": "Geometry of Silence"
+    },
+    "item4": {
+      "category": "Editorial",
+      "name": "Form Report"
+    },
+    "item5": {
+      "category": "Brand System",
+      "name": "Orbital"
+    }
+  },
+  "process": {
+    "title": "Process",
+    "step1": {
+      "name": "Discover",
+      "description": "Deep dive into your brand's essence, market position, and audience psychology."
+    },
+    "step2": {
+      "name": "Concept",
+      "description": "Develop strategic creative directions grounded in insight and innovation."
+    },
+    "step3": {
+      "name": "Create",
+      "description": "Craft meticulous executions across all touchpoints with artistic precision."
+    },
+    "step4": {
+      "name": "Launch",
+      "description": "Deploy your brand with impact and measure performance across channels."
+    },
+    "step5": {
+      "name": "Refine",
+      "description": "Continuously evolve and optimize based on feedback and market dynamics."
+    }
+  },
+  "stats": {
+    "title": "Studio",
+    "stat1": {
+      "number": "127",
+      "label": "Projects"
+    },
+    "stat2": {
+      "number": "48",
+      "label": "Brand Identities"
+    },
+    "stat3": {
+      "number": "12",
+      "label": "Years of Practice"
+    },
+    "stat4": {
+      "number": "23",
+      "label": "Awards Won"
+    }
+  },
+  "clients": {
+    "title": "Industries",
+    "industry1": "Luxury",
+    "industry2": "Fashion",
+    "industry3": "Hospitality",
+    "industry4": "Technology",
+    "industry5": "Culture",
+    "industry6": "Architecture"
+  },
+  "founder": {
+    "label": "Founder's Perspective",
+    "quote": "Art without strategy is decoration. Strategy without art is noise. We exist in the space between — and that space is where influence lives.",
+    "bio": "Ariana Moradi is a creative director and brand strategist with 12 years of experience shaping brands at the intersection of art and commerce. She founded FORMA to pursue a singular vision: creating work that matters.",
+    "name": "Ariana Moradi",
+    "title": "Founder & Creative Director",
+    "signature": "A.M.",
+    "portraitCaption": "Portrait Coming Soon"
+  },
+  "journal": {
+    "title": "Journal",
+    "article1": {
+      "category": "Brand Strategy",
+      "date": "May 2025",
+      "title": "Why the Most Successful Brands Behave Like Artists",
+      "excerpt": "The best brands don't follow trends—they create them. We explore how companies like Apple and luxury houses like Hermès apply artistic principles to business.",
+      "readMore": "Read more"
+    },
+    "article2": {
+      "category": "Visual Culture",
+      "date": "Apr 2025",
+      "title": "The Psychology of Attention: What Advertising Can Learn from Gallery Design",
+      "excerpt": "Museums are masters of spatial storytelling. What can ad campaigns and brand experiences learn from how galleries direct the human eye?",
+      "readMore": "Read more"
+    },
+    "article3": {
+      "category": "Campaign Thinking",
+      "date": "Mar 2025",
+      "title": "Restraint as a Creative Strategy: The Case for Saying Less",
+      "excerpt": "In a world of noise and clutter, simplicity and restraint have become radical acts. Why the most powerful messages often say the least.",
+      "readMore": "Read more"
+    }
+  },
+  "contact": {
+    "label": "Get In Touch",
+    "heading": "Let's Talk",
+    "intro": "Have a project in mind? Let's explore how we can shape something meaningful together.",
+    "email": "hello@forma-studio.com",
+    "offices": "Yerevan · Dubai · London",
+    "form": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "service": "What are you looking for?",
+      "budget": "Budget Range",
+      "timeline": "Timeline",
+      "message": "Project description",
+      "submit": "Send Inquiry",
+      "sending": "Sending…",
+      "sent": "Message Sent ✓"
+    },
+    "serviceOptions": {
+      "brand": "Brand Identity",
+      "campaign": "Advertising Campaign",
+      "production": "Creative Production",
+      "art": "Art Collaboration",
+      "consulting": "Strategic Consulting"
+    },
+    "budgetOptions": {
+      "small": "$10K–$30K",
+      "medium": "$30K–$80K",
+      "large": "$80K–$200K",
+      "enterprise": "$200K+"
+    },
+    "timelineOptions": {
+      "quick": "1–2 Months",
+      "medium": "3–6 Months",
+      "flexible": "6+ Months"
+    }
+  },
+  "footer": {
+    "tagline": "Crafted with intention.",
+    "copyright": "© 2025 FORMA Studio",
+    "work": {
+      "label": "Work",
+      "link1": "Brand Identities",
+      "link2": "Campaigns",
+      "link3": "Art Projects"
+    },
+    "studio": {
+      "label": "Studio",
+      "link1": "Founder",
+      "link2": "Process",
+      "link3": "Journal"
+    },
+    "connect": {
+      "label": "Connect",
+      "link1": "Instagram",
+      "link2": "LinkedIn",
+      "link3": "Contact"
+    }
+  },
+  "agent": {
+    "title": "FORMA Assistant",
+    "status": "Powered by Claude",
+    "greeting": "Hello! I'm FORMA's creative assistant. Ask me about our services, process, or let's discuss your project.",
+    "placeholder": "Ask anything…",
+    "send": "Send"
+  }
+}
