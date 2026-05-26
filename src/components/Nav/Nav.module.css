@@ -8,9 +8,10 @@
 }
 
 .nav.scrolled {
-  background-color: rgba(11, 11, 11, 0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  background-color: rgba(11, 11, 11, 0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .container {
@@ -68,10 +69,11 @@
 .languageToggle {
   display: flex;
   gap: 2px;
-  background-color: var(--surface);
+  background-color: rgba(21, 21, 21, 0.5);
+  backdrop-filter: blur(8px);
   padding: 4px;
   border-radius: 4px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(201, 168, 76, 0.15);
 }
 
 .langButton {
@@ -163,10 +165,11 @@
 .mobileLanguageToggle {
   display: flex;
   gap: 2px;
-  background-color: var(--surface);
+  background-color: rgba(21, 21, 21, 0.5);
+  backdrop-filter: blur(8px);
   padding: 4px;
   border-radius: 4px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(201, 168, 76, 0.15);
   width: fit-content;
 }
 

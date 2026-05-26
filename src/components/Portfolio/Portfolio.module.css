@@ -58,17 +58,19 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(to top, rgba(11, 11, 11, 0.92) 0%, transparent 60%);
+  background: rgba(11, 11, 11, 0.5);
+  backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 32px;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease, backdrop-filter 0.5s ease;
 }
 
 .item:hover .overlay {
   opacity: 1;
+  backdrop-filter: blur(12px);
 }
 
 .meta {
@@ -100,6 +102,26 @@
 
 .item.reveal {
   animation: fadeInUp 0.9s var(--ease-luxury) forwards;
+}
+
+.item:nth-child(1).reveal {
+  animation: scaleIn 0.9s var(--ease-luxury) forwards;
+}
+
+.item:nth-child(2).reveal {
+  animation: rotateIn 0.9s var(--ease-luxury) forwards 0.1s both;
+}
+
+.item:nth-child(3).reveal {
+  animation: slideInLeft 0.9s var(--ease-luxury) forwards 0.2s both;
+}
+
+.item:nth-child(4).reveal {
+  animation: slideInRight 0.9s var(--ease-luxury) forwards 0.1s both;
+}
+
+.item:nth-child(5).reveal {
+  animation: scaleIn 0.9s var(--ease-luxury) forwards 0.2s both;
 }
 
 .item {

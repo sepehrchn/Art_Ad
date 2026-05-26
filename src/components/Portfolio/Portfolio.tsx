@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
+import { useMouseTrack } from '../../hooks/useMouseTrack'
 import styles from './Portfolio.module.css'
 
 // SVG Components
@@ -105,13 +106,15 @@ interface PortfolioItemProps {
 const PortfolioItem: React.FC<PortfolioItemProps> = ({ itemKey, svg, featured }) => {
   const { t } = useTranslation()
   const { ref, isRevealed } = useScrollReveal(0)
+  const mouseRef = useMouseTrack()
 
   return (
     <div
-      ref={ref}
+      ref={mouseRef}
       className={`${styles.item} ${featured ? styles.featured : ''} ${
         isRevealed ? styles.reveal : ''
       }`}
+      style={{ transition: 'transform 0.2s ease-out' }}
     >
       <div className={styles.imageWrapper}>
         <div className={styles.image}>{svg}</div>

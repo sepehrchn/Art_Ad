@@ -18,6 +18,7 @@ import { Journal } from './components/Journal/Journal'
 import { Contact } from './components/Contact/Contact'
 import { Footer } from './components/Footer/Footer'
 import { AgentPanel } from './components/AgentPanel/AgentPanel'
+import { MorphingShapes } from './components/MorphingShapes/MorphingShapes'
 import './index.css'
 
 i18n.use(initReactI18next).init({
@@ -60,6 +61,7 @@ export const App: React.FC = () => {
       </main>
 
       <AgentPanel />
+      <MorphingShapes />
     </LanguageProvider>
   )
 }

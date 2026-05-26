@@ -128,29 +128,57 @@ export const initScene = (
   window.addEventListener('resize', onWindowResize)
 
   // Animation loop
+  let time = 0
   const animate = () => {
     requestAnimationFrame(animate)
+    time += 0.016
 
-    // Icosahedron rotation
-    icoWireframe.rotation.x += 0.003
-    icoWireframe.rotation.y += 0.005
-    icoSolid.rotation.x += 0.003
-    icoSolid.rotation.y += 0.005
+    // Enhanced icosahedron 3D movement
+    icoWireframe.rotation.x += 0.004
+    icoWireframe.rotation.y += 0.006
+    icoWireframe.rotation.z += 0.002
+    icoWireframe.position.y = Math.sin(time * 0.3) * 0.3
+    icoSolid.rotation.x += 0.004
+    icoSolid.rotation.y += 0.006
+    icoSolid.rotation.z += 0.002
+    icoSolid.position.y = Math.sin(time * 0.3) * 0.3
 
-    // Torus 2 z movement
+    // Torus 1 enhanced rotation
+    torus1.rotation.x += 0.0015
+    torus1.rotation.y += 0.002
+    torus1.position.z = Math.cos(time * 0.2) * 0.5
+
+    // Torus 2 z movement with oscillation
     torus2.position.z -= 0.0015
+    torus2.rotation.x += 0.001
+    torus2.rotation.y += 0.0015
+    torus2.position.x = Math.sin(time * 0.25) * 0.4
 
-    // Planes floating
+    // Planes floating with complex motion
     planes.forEach((plane, index) => {
-      plane.position.y += Math.sin(Date.now() * 0.0005 + index) * 0.005
-      plane.rotation.z += 0.0008
+      const offset = index * 0.5
+      plane.position.y += Math.sin(time * 0.4 + offset) * 0.008
+      plane.position.x += Math.cos(time * 0.3 + offset) * 0.004
+      plane.position.z += Math.sin(time * 0.35 + offset) * 0.003
+      plane.rotation.z += 0.001
+      plane.rotation.x += Math.sin(time * 0.2 + offset) * 0.0005
     })
 
-    // Mouse parallax
-    targetX = mouseX * 0.4
-    targetY = -mouseY * 0.3
-    camera.position.x += (targetX - camera.position.x) * 0.04
-    camera.position.y += (targetY - camera.position.y) * 0.04
+    // Particles movement
+    const positionAttribute = particlesGeometry.getAttribute('position')
+    const positions = positionAttribute.array as Float32Array
+    for (let i = 0; i < positions.length; i += 3) {
+      positions[i + 2] += 0.01
+      if (positions[i + 2] > 8) positions[i + 2] = -8
+    }
+    positionAttribute.needsUpdate = true
+
+    // Enhanced mouse parallax
+    targetX = mouseX * 0.5
+    targetY = -mouseY * 0.4
+    camera.position.x += (targetX - camera.position.x) * 0.05
+    camera.position.y += (targetY - camera.position.y) * 0.05
+    camera.position.z = 6 + Math.sin(time * 0.15) * 0.5
 
     renderer.render(scene, camera)
   }

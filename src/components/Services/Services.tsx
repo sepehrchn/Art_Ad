@@ -1,10 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
+import { useParallax } from '../../hooks/useParallax'
 import styles from './Services.module.css'
 
 export const Services: React.FC = () => {
   const { t } = useTranslation()
+  const parallaxRef = useParallax(0.3)
 
   const services = [
     { key: 'service1' },
@@ -14,7 +16,7 @@ export const Services: React.FC = () => {
   ]
 
   return (
-    <section id="services" className={styles.services}>
+    <section id="services" className={styles.services} ref={parallaxRef}>
       <h2 className={styles.title}>{t('services.title')}</h2>
 
       <div className={styles.grid}>

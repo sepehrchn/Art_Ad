@@ -1,0 +1,61 @@
+.container {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.shape1 {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  animation: rotateScale 8s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(201, 168, 76, 0.3));
+}
+
+.shape2 {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 10px;
+  left: 10px;
+  animation: morphShape 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(201, 168, 76, 0.2));
+}
+
+.shape3 {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  bottom: 10px;
+  right: 10px;
+  animation: rotateScale 10s ease-in-out infinite reverse;
+  filter: drop-shadow(0 0 12px rgba(201, 168, 76, 0.25));
+}
+
+@media (max-width: 600px) {
+  .container {
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+  }
+
+  .shape1 {
+    width: 50px;
+    height: 50px;
+  }
+
+  .shape2 {
+    width: 70px;
+    height: 70px;
+  }
+
+  .shape3 {
+    width: 40px;
+    height: 40px;
+  }
+}
