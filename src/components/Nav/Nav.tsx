@@ -90,14 +90,14 @@ export const Nav: React.FC = () => {
           </button>
 
           <div className={styles.languageToggle}>
-            {['en', 'ru', 'fa'].map((lang) => (
+            {['en', 'ru', 'fa', 'hy'].map((lang) => (
               <button
                 key={lang}
                 className={`${styles.langButton} ${
                   i18n.language === lang ? styles.activeLanguage : ''
                 }`}
                 onClick={() => handleLanguageChange(lang)}
-                aria-label={`Switch to ${lang === 'en' ? 'English' : lang === 'ru' ? 'Russian' : 'Persian'}`}
+                aria-label={`Switch to ${lang === 'en' ? 'English' : lang === 'ru' ? 'Russian' : lang === 'fa' ? 'Persian' : 'Armenian'}`}
                 aria-pressed={i18n.language === lang}
               >
                 {lang.toUpperCase()}
@@ -145,14 +145,14 @@ export const Nav: React.FC = () => {
           </button>
 
           <div className={styles.mobileLanguageToggle}>
-            {['en', 'ru', 'fa'].map((lang) => (
+            {['en', 'ru', 'fa', 'hy'].map((lang) => (
               <button
                 key={lang}
                 className={`${styles.mobileLangButton} ${
                   i18n.language === lang ? styles.activeLanguage : ''
                 }`}
                 onClick={() => handleLanguageChange(lang)}
-                aria-label={`Switch to ${lang === 'en' ? 'English' : lang === 'ru' ? 'Russian' : 'Persian'}`}
+                aria-label={`Switch to ${lang === 'en' ? 'English' : lang === 'ru' ? 'Russian' : lang === 'fa' ? 'Persian' : 'Armenian'}`}
                 aria-pressed={i18n.language === lang}
               >
                 {lang.toUpperCase()}

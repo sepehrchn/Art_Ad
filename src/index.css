@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=DM+Sans:ital,opsz,wght@0,9..146,300;0,9..146,400;0,9..146,500;1,9..146,300;1,9..146,400&family=IBM+Plex+Mono:wght@400;500;600&family=Vazirmatn:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=DM+Sans:ital,opsz,wght@0,9..146,300;0,9..146,400;0,9..146,500;1,9..146,300;1,9..146,400&family=IBM+Plex+Mono:wght@400;500;600&family=Vazirmatn:wght@400;500;600;700&family=Noto+Sans+Armenian:wght@400;500;600;700&display=swap');
 
 :root {
   --bg: #0B0B0B;
@@ -38,6 +38,10 @@ html, body {
 
 body.lang-fa {
   font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+}
+
+body.lang-hy {
+  font-family: 'Noto Sans Armenian', system-ui, -apple-system, sans-serif;
 }
 
 html[dir="rtl"] {

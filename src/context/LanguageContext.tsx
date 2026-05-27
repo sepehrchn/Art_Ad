@@ -18,10 +18,11 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({
     document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr'
     document.documentElement.lang = lang
 
+    document.body.classList.remove('lang-fa', 'lang-hy')
     if (lang === 'fa') {
       document.body.classList.add('lang-fa')
-    } else {
-      document.body.classList.remove('lang-fa')
+    } else if (lang === 'hy') {
+      document.body.classList.add('lang-hy')
     }
   }
 

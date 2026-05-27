@@ -6,6 +6,7 @@ import { initReactI18next } from 'react-i18next'
 import enTranslations from './locales/en.json'
 import ruTranslations from './locales/ru.json'
 import faTranslations from './locales/fa.json'
+import hyTranslations from './locales/hy.json'
 import { LanguageProvider } from './context/LanguageContext'
 import { Loader } from './components/Loader/Loader'
 import { Nav } from './components/Nav/Nav'
@@ -28,6 +29,7 @@ i18n.use(initReactI18next).init({
     en: { translation: enTranslations },
     ru: { translation: ruTranslations },
     fa: { translation: faTranslations },
+    hy: { translation: hyTranslations },
   },
   lng: 'en',
   fallbackLng: 'en',
