@@ -36,12 +36,17 @@ interface ProcessStepProps {
 
 const ProcessStep: React.FC<ProcessStepProps> = ({ stepKey, index }) => {
   const { t } = useTranslation()
-  const { ref, isRevealed } = useScrollReveal(0)
+  const { ref, isInView } = useScrollReveal(0)
 
   return (
     <div
-      ref={ref}
-      className={`${styles.step} ${isRevealed ? styles.reveal : ''}`}
+      ref={ref as React.Ref<HTMLDivElement>}
+      className={styles.step}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? 'translateY(0)' : 'translateY(32px)',
+        transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+      }}
     >
       <div className={styles.badge}>
         {index + 1}

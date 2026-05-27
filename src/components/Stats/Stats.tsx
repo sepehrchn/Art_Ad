@@ -33,11 +33,11 @@ interface StatItemProps {
 
 const StatItem: React.FC<StatItemProps> = ({ statKey, value }) => {
   const { t } = useTranslation()
-  const { ref, count } = useCounter(value, 1800)
+  const { ref, rounded } = useCounter(value, 1800)
 
   return (
-    <div ref={ref} className={styles.stat}>
-      <div className={styles.number}>{count}</div>
+    <div ref={ref as React.Ref<HTMLDivElement>} className={styles.stat}>
+      <div className={styles.number}>{rounded}</div>
       <div className={styles.label}>
         {t(`stats.${statKey}.label`)}
       </div>

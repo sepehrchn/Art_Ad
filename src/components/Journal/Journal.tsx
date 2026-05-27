@@ -1,7 +1,9 @@
 import { useRef, useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import styles from './Journal.module.css'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 interface JournalEntry {
   id: number
@@ -13,7 +15,8 @@ interface JournalEntry {
 
 export function Journal() {
   const { t } = useTranslation()
-  const { ref, isRevealed } = useScrollReveal()
+  const { ref, isInView } = useScrollReveal()
+  const prefersReducedMotion = useReducedMotion()
   const [entries, setEntries] = useState<JournalEntry[]>([])
 
   useEffect(() => {
@@ -42,17 +45,42 @@ export function Journal() {
     }
   }, [t])
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: prefersReducedMotion ? 0 : 0.1,
+        delayChildren: 0,
+      },
+    },
+  }
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 32 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: prefersReducedMotion ? 0 : 0.7,
+      },
+    },
+  }
+
   return (
     <section className={styles.journal} ref={ref} id="journal">
       <h2 className={styles.title}>{t('journal.title', 'Journal')}</h2>
-      <div className={styles.grid}>
-        {entries.map((entry, idx) => (
-          <article
+      <motion.div 
+        className={styles.grid}
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+      >
+        {entries.map((entry) => (
+          <motion.article
             key={entry.id}
-            className={`${styles.card} ${isRevealed ? styles.reveal : ''}`}
-            style={{
-              animationDelay: isRevealed ? `${idx * 0.1}s` : undefined
-            }}
+            className={styles.card}
+            variants={cardVariants}
           >
             <div className={styles.header}>
               <span className={styles.category}>{entry.category}</span>
@@ -61,14 +89,14 @@ export function Journal() {
             <h3 className={styles.cardTitle}>{entry.title}</h3>
             <p className={styles.excerpt}>{entry.excerpt}</p>
             <div className={styles.footer}>
-              <a href="#" className={styles.readMore}>
+              <a href="#" className={styles.readMore} aria-label={`Read more about: ${entry.title}`}>
                 {t('common.readMore', 'Read More')}
-                <span className={styles.arrow}>→</span>
+                <span className={styles.arrow} aria-hidden="true">→</span>
               </a>
             </div>
-          </article>
+          </motion.article>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }

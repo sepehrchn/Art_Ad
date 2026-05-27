@@ -1,22 +1,42 @@
-import { useEffect, useState } from 'react'
-import { useInView } from 'react-intersection-observer'
+import { useRef, useEffect, useState } from 'react'
 
-export const useScrollReveal = (delayOffset: number = 0) => {
-  const { ref, inView } = useInView({
-    threshold: 0.12,
-    triggerOnce: true,
-  })
+interface ScrollRevealOptions {
+  once?: boolean
+  amount?: number
+}
 
-  const [isRevealed, setIsRevealed] = useState(false)
+export const useScrollReveal = (delayOffset?: number, options?: ScrollRevealOptions) => {
+  const ref = useRef<HTMLElement>(null)
+  const [inView, setInView] = useState(false)
 
   useEffect(() => {
-    if (inView) {
-      const timer = setTimeout(() => {
-        setIsRevealed(true)
-      }, delayOffset)
-      return () => clearTimeout(timer)
-    }
-  }, [inView, delayOffset])
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true)
+          if (options?.once !== false) {
+            observer.unobserve(entry.target)
+          }
+        } else if (options?.once === false) {
+          setInView(false)
+        }
+      },
+      {
+        threshold: options?.amount ?? 0.2,
+      }
+    )
 
-  return { ref, isRevealed }
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [options?.amount, options?.once])
+
+  return {
+    ref,
+    isInView: inView,
+  }
 }

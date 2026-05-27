@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { useLanguage } from '../../context/LanguageContext'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 import styles from './Nav.module.css'
 
 export const Nav: React.FC = () => {
   const { t, i18n } = useTranslation()
   const { changeLanguage } = useLanguage()
   const activeSection = useActiveSection()
+  const prefersReducedMotion = useReducedMotion()
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -54,7 +57,15 @@ export const Nav: React.FC = () => {
 
   return (
     <>
-      <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
+      <motion.nav 
+        className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}
+        initial={{ opacity: 1, backdropFilter: 'blur(0px)' }}
+        animate={{ 
+          opacity: 1,
+          backdropFilter: scrolled ? 'blur(12px)' : 'blur(0px)',
+        }}
+        transition={{ ease: [0.77, 0, 0.175, 1], duration: prefersReducedMotion ? 0 : 0.3 }}
+      >
         <div className={styles.container}>
           <button className={styles.logo} onClick={handleLogoClick}>
             FORMA
@@ -105,10 +116,18 @@ export const Nav: React.FC = () => {
             <span></span>
           </button>
         </div>
-      </nav>
+      </motion.nav>
 
-      {mobileMenuOpen && (
-        <div className={styles.mobileMenu}>
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div 
+            key="mobile-menu"
+            className={styles.mobileMenu}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ ease: [0.77, 0, 0.175, 1], duration: prefersReducedMotion ? 0 : 0.3 }}
+          >
           <div className={styles.mobileLinks}>
             {navItems.map((item) => (
               <button
@@ -140,8 +159,9 @@ export const Nav: React.FC = () => {
               </button>
             ))}
           </div>
-        </div>
-      )}
+        </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }

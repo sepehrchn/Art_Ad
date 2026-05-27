@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { AnimatePresence } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import enTranslations from './locales/en.json'
@@ -35,7 +37,15 @@ i18n.use(initReactI18next).init({
 })
 
 export const App: React.FC = () => {
+  const { i18n: i18nInstance } = useTranslation()
   const [showLoader, setShowLoader] = useState(false)
+
+  useEffect(() => {
+    // Set document direction based on language
+    const htmlElement = document.documentElement
+    htmlElement.dir = i18nInstance.language === 'fa' ? 'rtl' : 'ltr'
+    htmlElement.lang = i18nInstance.language
+  }, [i18nInstance.language])
 
   const handleLoaderComplete = () => {
     setShowLoader(false)
@@ -43,7 +53,9 @@ export const App: React.FC = () => {
 
   return (
     <LanguageProvider>
-      {showLoader && <Loader onComplete={handleLoaderComplete} />}
+      <AnimatePresence mode="wait">
+        {showLoader && <Loader key="loader" onComplete={handleLoaderComplete} />}
+      </AnimatePresence>
 
       <Nav />
 

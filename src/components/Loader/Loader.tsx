@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 import styles from './Loader.module.css'
 
 interface LoaderProps {
@@ -7,42 +9,36 @@ interface LoaderProps {
 
 export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
   const [progress, setProgress] = useState(0)
-  const [isVisible, setIsVisible] = useState(true)
+  const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
     const startTime = performance.now()
-    const duration = 1600 // 1.6s
+    const duration = prefersReducedMotion ? 0 : 1600 // Skip animation if reduced motion
 
     const animate = (currentTime: number) => {
       const elapsed = currentTime - startTime
-      const currentProgress = Math.min((elapsed / duration) * 100, 100)
+      const currentProgress = Math.min((elapsed / (duration || 1)) * 100, 100)
       setProgress(currentProgress)
 
-      if (elapsed < duration) {
+      if (elapsed < (duration || 1)) {
         requestAnimationFrame(animate)
       } else {
-        // 400ms pause
+        // 400ms pause then trigger exit animation
         setTimeout(() => {
-          // 800ms fade-out
-          setIsVisible(false)
-          setTimeout(() => {
-            onComplete()
-          }, 800)
-        }, 400)
+          onComplete()
+        }, prefersReducedMotion ? 0 : 400)
       }
     }
 
     requestAnimationFrame(animate)
-  }, [onComplete])
-
-  if (!isVisible) {
-    return null
-  }
+  }, [onComplete, prefersReducedMotion])
 
   return (
-    <div
+    <motion.div
       className={styles.loader}
-      style={{ opacity: isVisible ? 1 : 0 }}
+      initial={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ ease: [0.77, 0, 0.175, 1], duration: prefersReducedMotion ? 0 : 0.6 }}
     >
       <div className={styles.container}>
         <div className={styles.progressBar}>
@@ -55,6 +51,6 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
           {String(Math.floor(progress)).padStart(2, '0')}
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

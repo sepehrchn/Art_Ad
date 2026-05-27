@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { useMouseTrack } from '../../hooks/useMouseTrack'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 import styles from './Portfolio.module.css'
 
 // SVG Components
@@ -105,29 +107,47 @@ interface PortfolioItemProps {
 
 const PortfolioItem: React.FC<PortfolioItemProps> = ({ itemKey, svg, featured }) => {
   const { t } = useTranslation()
-  const { ref, isRevealed } = useScrollReveal(0)
+  const { ref, isInView } = useScrollReveal(0)
   const mouseRef = useMouseTrack()
+  const prefersReducedMotion = useReducedMotion()
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
     <div
       ref={mouseRef}
-      className={`${styles.item} ${featured ? styles.featured : ''} ${
-        isRevealed ? styles.reveal : ''
-      }`}
-      style={{ transition: 'transform 0.2s ease-out' }}
+      className={`${styles.item} ${featured ? styles.featured : ''}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      role="article"
+      aria-label={t(`portfolio.${itemKey}.name`)}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? 'translateY(0)' : 'translateY(32px)',
+        transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s ease-out',
+      }}
     >
       <div className={styles.imageWrapper}>
-        <div className={styles.image}>{svg}</div>
-        <div className={styles.overlay}>
-          <div className={styles.meta}>
+        <div className={styles.image} aria-hidden="true">{svg}</div>
+        <motion.div 
+          className={styles.overlay}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ ease: [0.77, 0, 0.175, 1], duration: prefersReducedMotion ? 0 : 0.3 }}
+        >
+          <motion.div 
+            className={styles.meta}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: isHovered ? 1 : 0.9, opacity: isHovered ? 1 : 0 }}
+            transition={{ ease: [0.77, 0, 0.175, 1], duration: prefersReducedMotion ? 0 : 0.3, delay: isHovered ? 0.1 : 0 }}
+          >
             <span className={styles.category}>
               {t(`portfolio.${itemKey}.category`)}
             </span>
             <h3 className={styles.itemTitle}>
               {t(`portfolio.${itemKey}.name`)}
             </h3>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   )

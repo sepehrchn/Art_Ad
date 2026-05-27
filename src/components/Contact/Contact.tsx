@@ -5,7 +5,7 @@ import styles from './Contact.module.css'
 
 export const Contact: React.FC = () => {
   const { t } = useTranslation()
-  const { ref: refForm } = useScrollReveal(0)
+  const { ref: refForm, isInView } = useScrollReveal(0)
 
   const [formData, setFormData] = useState({
     name: '',
@@ -76,7 +76,7 @@ export const Contact: React.FC = () => {
         <label className={styles.label}>{t('contact.label')}</label>
         <h2 className={styles.heading}>{t('contact.heading')}</h2>
 
-        <div className={styles.divider}></div>
+        <div className={styles.divider} aria-hidden="true"></div>
 
         <p className={styles.intro}>{t('contact.intro')}</p>
 
@@ -88,7 +88,7 @@ export const Contact: React.FC = () => {
         </div>
       </div>
 
-      <div ref={refForm} className={styles.right}>
+      <div ref={refForm as React.Ref<HTMLDivElement>} className={styles.right}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.row}>
             <input
@@ -197,6 +197,11 @@ export const Contact: React.FC = () => {
               isSuccess ? styles.success : ''
             }`}
             disabled={isLoading || isSuccess}
+            aria-label={isSuccess
+              ? t('contact.form.sent')
+              : isLoading
+                ? t('contact.form.sending')
+                : t('contact.form.submit')}
           >
             {isSuccess
               ? t('contact.form.sent')
