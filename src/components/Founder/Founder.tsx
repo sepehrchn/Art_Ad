@@ -28,15 +28,15 @@ const PortraitSVG = () => (
 
 export const Founder: React.FC = () => {
   const { t } = useTranslation()
-
-  const { ref: refLabel, isInView: revealLabel } = useScrollReveal(0)
-  const { ref: refQuote, isInView: revealQuote } = useScrollReveal(150)
-  const { ref: refBio, isInView: revealBio } = useScrollReveal(300)
-  const { ref: refFooter, isInView: revealFooter } = useScrollReveal(450)
+  const portraitRef = useScrollReveal<HTMLDivElement>()
+  const labelRef = useScrollReveal<HTMLLabelElement>()
+  const quoteRef = useScrollReveal<HTMLQuoteElement>()
+  const bioRef = useScrollReveal<HTMLParagraphElement>()
+  const footerRef = useScrollReveal<HTMLDivElement>()
 
   return (
     <section id="founder" className={styles.founder}>
-      <div className={styles.portraitPanel}>
+      <div className={`${styles.portraitPanel} reveal-card`} ref={portraitRef}>
         <div className={styles.portrait}>
           <PortraitSVG />
         </div>
@@ -47,50 +47,30 @@ export const Founder: React.FC = () => {
 
       <div className={styles.contentPanel}>
         <label
-          ref={refLabel as React.Ref<HTMLLabelElement>}
-          className={styles.label}
-          style={{
-            opacity: revealLabel ? 1 : 0,
-            transform: revealLabel ? 'translateY(0)' : 'translateY(32px)',
-            transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-          }}
+          ref={labelRef}
+          className={`${styles.label} reveal-label`}
         >
           {t('founder.label')}
         </label>
 
         <blockquote
-          ref={refQuote as React.Ref<HTMLQuoteElement>}
-          className={styles.quote}
-          style={{
-            opacity: revealQuote ? 1 : 0,
-            transform: revealQuote ? 'translateY(0)' : 'translateY(32px)',
-            transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-          }}
+          ref={quoteRef}
+          className={`${styles.quote} reveal-title`}
         >
           <span className={styles.quoteChar}>"</span>
           {t('founder.quote')}
         </blockquote>
 
         <p
-          ref={refBio as React.Ref<HTMLParagraphElement>}
-          className={styles.bio}
-          style={{
-            opacity: revealBio ? 1 : 0,
-            transform: revealBio ? 'translateY(0)' : 'translateY(32px)',
-            transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-          }}
+          ref={bioRef}
+          className={`${styles.bio} reveal-body`}
         >
           {t('founder.bio')}
         </p>
 
         <div
-          ref={refFooter as React.Ref<HTMLDivElement>}
-          className={styles.footer}
-          style={{
-            opacity: revealFooter ? 1 : 0,
-            transform: revealFooter ? 'translateY(0)' : 'translateY(32px)',
-            transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-          }}
+          ref={footerRef}
+          className={`${styles.footer} reveal-body`}
         >
           <div className={styles.divider}></div>
           <h3 className={styles.name}>{t('founder.name')}</h3>

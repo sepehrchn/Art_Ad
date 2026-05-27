@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import React, { useEffect } from 'react'
+import { motion, useAnimationControls, Variants } from 'framer-motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import styles from './Loader.module.css'
 
@@ -7,50 +7,87 @@ interface LoaderProps {
   onComplete: () => void
 }
 
+const svgVariant: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+}
+
+const pathVariant: Variants = {
+  hidden: {
+    pathLength: 0,
+    fill: 'rgba(240, 235, 224, 0)',
+  },
+  visible: {
+    pathLength: 1,
+    fill: 'rgba(240, 235, 224, 0)',
+    transition: {
+      pathLength: {
+        delay: 0.2,
+        duration: 1.4,
+                ease: 'circOut',
+      },
+    },
+  },
+  fill: {
+    fill: 'rgba(240, 235, 224, 1)',
+    transition: {
+      fill: {
+        delay: 0,
+        duration: 0.4,
+      },
+    },
+  },
+}
+
 export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
-  const [progress, setProgress] = useState(0)
+  const controls = useAnimationControls()
   const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
-    const startTime = performance.now()
-    const duration = prefersReducedMotion ? 0 : 1600 // Skip animation if reduced motion
-
-    const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime
-      const currentProgress = Math.min((elapsed / (duration || 1)) * 100, 100)
-      setProgress(currentProgress)
-
-      if (elapsed < (duration || 1)) {
-        requestAnimationFrame(animate)
-      } else {
-        // 400ms pause then trigger exit animation
-        setTimeout(() => {
-          onComplete()
-        }, prefersReducedMotion ? 0 : 400)
+    const sequence = async () => {
+      await controls.start('visible')
+      await controls.start('fill')
+      if (prefersReducedMotion) {
+        onComplete()
       }
     }
-
-    requestAnimationFrame(animate)
-  }, [onComplete, prefersReducedMotion])
+    sequence()
+  }, [controls, onComplete, prefersReducedMotion])
 
   return (
     <motion.div
       className={styles.loader}
-      initial={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      transition={{ ease: [0.77, 0, 0.175, 1], duration: prefersReducedMotion ? 0 : 0.6 }}
+      exit={{ 
+        opacity: 0,
+        scale: 1.1,
+        transition: { 
+          duration: 0.4, 
+                    ease: 'easeOut' 
+        }
+      }}
+      onAnimationComplete={definition => {
+        if (definition === 'exit') {
+          onComplete()
+        }
+      }}
     >
-      <div className={styles.container}>
-        <div className={styles.progressBar}>
-          <div
-            className={styles.progress}
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <div className={styles.counter}>
-          {String(Math.floor(progress)).padStart(2, '0')}
-        </div>
-      </div>
+      <motion.svg
+        className={styles.svgContainer}
+        viewBox="0 0 800 200"
+        variants={svgVariant}
+        initial="hidden"
+        animate={controls}
+      >
+        <motion.text
+          x="50%"
+          y="50%"
+          dy="30px"
+          className={styles.svgText}
+          variants={pathVariant}
+        >
+          FORMA
+        </motion.text>
+      </motion.svg>
     </motion.div>
   )
 }

@@ -1,42 +1,44 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 
 interface ScrollRevealOptions {
   once?: boolean
-  amount?: number
+  threshold?: number
+  rootMargin?: string
 }
 
-export const useScrollReveal = (delayOffset?: number, options?: ScrollRevealOptions) => {
-  const ref = useRef<HTMLElement>(null)
-  const [inView, setInView] = useState(false)
+export const useScrollReveal = <T extends HTMLElement>(options?: ScrollRevealOptions) => {
+  const ref = useRef<T>(null)
 
   useEffect(() => {
+    if (!ref.current) return
+
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true)
-          if (options?.once !== false) {
-            observer.unobserve(entry.target)
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+            if (options?.once !== false) {
+              observer.unobserve(entry.target)
+            }
+          } else if (options?.once === false) {
+            entry.target.classList.remove('is-visible')
           }
-        } else if (options?.once === false) {
-          setInView(false)
-        }
+        })
       },
       {
-        threshold: options?.amount ?? 0.2,
+        threshold: options?.threshold ?? 0.15,
+        rootMargin: options?.rootMargin ?? '0px 0px -60px 0px',
       }
     )
 
-    if (ref.current) {
-      observer.observe(ref.current)
-    }
+    observer.observe(ref.current)
 
     return () => {
-      observer.disconnect()
+      if (ref.current) {
+        observer.unobserve(ref.current)
+      }
     }
-  }, [options?.amount, options?.once])
+  }, [options, ref])
 
-  return {
-    ref,
-    isInView: inView,
-  }
+  return ref
 }

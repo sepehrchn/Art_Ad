@@ -10,6 +10,10 @@ export const Services: React.FC = () => {
   const { t } = useTranslation()
   const parallaxRef = useParallax(0.3)
 
+  const titleRef = useScrollReveal<HTMLHeadingElement>()
+  const gridRef = useScrollReveal<HTMLDivElement>()
+  const ctaRef = useScrollReveal<HTMLDivElement>()
+
   const services = [
     { key: 'service1' },
     { key: 'service2' },
@@ -26,9 +30,9 @@ export const Services: React.FC = () => {
 
   return (
     <section id="services" className={styles.services} ref={parallaxRef}>
-      <h2 className={styles.title}>{t('services.title')}</h2>
+      <h2 className={`${styles.title} reveal-title`} ref={titleRef}>{t('services.title')}</h2>
 
-      <div className={styles.grid}>
+      <div className={`${styles.grid} reveal-body`} ref={gridRef}>
         {services.map((service, index) => (
           <ServiceCard
             key={index}
@@ -38,7 +42,7 @@ export const Services: React.FC = () => {
         ))}
       </div>
 
-      <div className={styles.ctaWrapper}>
+      <div className={`${styles.ctaWrapper} reveal-body`} ref={ctaRef}>
         <button className={styles.cta} onClick={handleCTA} aria-label={t('services.cta')}>
           {t('services.cta')}
         </button>
@@ -54,24 +58,24 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ serviceKey, delayOffset }) => {
   const { t } = useTranslation()
-  const { ref, isInView } = useScrollReveal(delayOffset)
+  const ref = useScrollReveal<HTMLDivElement>()
   const prefersReducedMotion = useReducedMotion()
   const [isHovered, setIsHovered] = useState(false)
 
   // Resolve tags as array
   const tags = (t(`services.${serviceKey}.tags`, { returnObjects: true }) as unknown) as string[]
 
+  const cardStyle = {
+    transitionDelay: prefersReducedMotion ? '0ms' : `${delayOffset}ms`,
+  }
+
   return (
     <div
-      ref={ref as React.Ref<HTMLDivElement>}
-      className={styles.card}
+      ref={ref}
+      className={`${styles.card} reveal-card`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{
-        opacity: isInView ? 1 : 0,
-        transform: isInView ? 'translateY(0)' : 'translateY(32px)',
-        transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-      }}
+      style={cardStyle}
     >
       <div className={styles.header}>
         <span className={styles.number}>

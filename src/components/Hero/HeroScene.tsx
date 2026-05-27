@@ -1,124 +1,133 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useMemo } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import {
-  Icosahedron,
-  Float,
-  Torus,
-  Sparkles,
-  Environment,
-} from '@react-three/drei'
-import { MeshTransmissionMaterial } from '@react-three/drei'
+import { TorusKnot, Sparkles } from '@react-three/drei'
 import * as THREE from 'three'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 
-interface CameraRigProps {
-  isMobile: boolean
-}
+const Scene: React.FC = () => {
+  const meshRef = useRef<THREE.Mesh>(null!)
+  const spotLightRef = useRef<THREE.SpotLight>(null!)
+  const sparklesRef1 = useRef<any>(null!)
+  const sparklesRef2 = useRef<any>(null!)
+  const { size, mouse } = useThree()
+  const prefersReducedMotion = useReducedMotion()
 
-const CameraRig: React.FC<CameraRigProps> = ({ isMobile }) => {
-  const { camera, mouse } = useThree()
-  const mouseRef = useRef({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1
-      mouseRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1
+  const particles1 = useMemo(() => {
+    const count = 500
+    const positions = new Float32Array(count * 3)
+    for (let i = 0; i < count * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 15
     }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+    return positions
   }, [])
 
-  useFrame(() => {
-    if (isMobile) return
+  useFrame((state, delta) => {
+    if (prefersReducedMotion) return
 
-    const targetX = mouseRef.current.x * 0.5
-    const targetY = mouseRef.current.y * 0.5
+    const time = state.clock.getElapsedTime()
+    const slowTime = time * 0.1
 
-    camera.position.x += (targetX - camera.position.x) * 0.05
-    camera.position.y += (targetY - camera.position.y) * 0.05
-    camera.lookAt(0, 0, 0)
+    // Animate main shape
+    if (meshRef.current) {
+      meshRef.current.rotation.y = slowTime
+      meshRef.current.rotation.x = slowTime * 0.3
+      meshRef.current.position.y = Math.sin(slowTime * 0.5) * 0.2
+    }
+
+    // Animate spotlight
+    if (spotLightRef.current) {
+      spotLightRef.current.position.x = Math.cos(slowTime * 0.5) * 5
+      spotLightRef.current.position.y = 2 + Math.sin(slowTime * 0.5) * 2
+    }
+
+    // Animate particle layers for parallax
+    const parallaxX = mouse.x * 0.5
+    const parallaxY = mouse.y * 0.5
+    if (sparklesRef1.current) {
+      sparklesRef1.current.position.x += (parallaxX - sparklesRef1.current.position.x) * 0.5 * delta
+      sparklesRef1.current.position.y += (parallaxY - sparklesRef1.current.position.y) * 0.5 * delta
+    }
+    if (sparklesRef2.current) {
+      sparklesRef2.current.position.x += (parallaxX - sparklesRef2.current.position.x) * 0.2 * delta
+      sparklesRef2.current.position.y += (parallaxY - sparklesRef2.current.position.y) * 0.2 * delta
+    }
   })
 
-  return null
-}
-
-interface SceneContentProps {
-  isMobile: boolean
-}
-
-const SceneContent: React.FC<SceneContentProps> = ({ isMobile }) => {
-  const { gl } = useThree()
-
-  // Mobile fallback: render only Icosahedron
-  if (gl.capabilities.maxTextureSize < 8192) {
-    return (
-      <>
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} color="#C9A84C" />
-        <Icosahedron args={[1.2, 1]}>
-          <meshStandardMaterial
-            color="#C9A84C"
-            metalness={0.3}
-            roughness={0.4}
-          />
-        </Icosahedron>
-      </>
-    )
-  }
-
-  // Full scene for desktop
   return (
     <>
-      <ambientLight intensity={0.3} />
-      <pointLight position={[10, 10, 10]} intensity={1} color="#C9A84C" />
+      <hemisphereLight groundColor={new THREE.Color('#444444')} intensity={0.4} />
+      <spotLight
+        ref={spotLightRef}
+        position={[5, 5, 5]}
+        angle={0.8}
+        penumbra={0.8}
+        intensity={1.8}
+        castShadow
+        color="#F0EBE0"
+      />
 
-      {/* Main Icosahedron with Float and Transmission */}
-      <Float speed={1.2} rotationIntensity={0.3} floatIntensity={0.4}>
-        <Icosahedron args={[1.2, 1]}>
-          <MeshTransmissionMaterial
-            backside
-            thickness={0.2}
-            roughness={0.05}
-            transmission={0.9}
-            chromaticAberration={0.06}
-            color="#C9A84C"
+      <TorusKnot ref={meshRef} args={[1, 0.35, 256, 24]}>
+        <meshStandardMaterial
+          metalness={0.4}
+          roughness={0.2}
+          color="#C9A84C"
+        />
+      </TorusKnot>
+
+      {/* Layer 1 - Fast, foreground */}
+      <group ref={sparklesRef1}>
+        <Sparkles
+          count={80}
+          scale={size.width < 768 ? 4 : 6}
+          size={1.5}
+          speed={0.1}
+          noise={0.1}
+          color="#D4AF37"
+        />
+      </group>
+
+      {/* Layer 2 - Slow, mid-ground */}
+      <group ref={sparklesRef2}>
+        <Sparkles
+          count={40}
+          scale={size.width < 768 ? 8 : 12}
+          size={2.5}
+          speed={0.05}
+          noise={0.05}
+          color="#FFFFFF"
+        />
+      </group>
+
+      {/* Layer 3 - Static, background */}
+      <points>
+        <bufferGeometry attach="geometry">
+          <bufferAttribute
+            attach="attributes-position"
+            count={particles1.length / 3}
+            array={particles1}
+            itemSize={3}
           />
-        </Icosahedron>
-      </Float>
-
-      {/* Torus rings */}
-      <Torus args={[2.2, 0.015]}>
-        <meshStandardMaterial color="#C9A84C" emissive="#C9A84C" emissiveIntensity={0.2} />
-      </Torus>
-
-      <Torus args={[3.0, 0.01]}>
-        <meshStandardMaterial color="#C9A84C" emissive="#C9A84C" emissiveIntensity={0.15} />
-      </Torus>
-
-      {/* Sparkles */}
-      <Sparkles count={60} scale={8} size={0.6} speed={0.2} />
-
-      {/* Environment */}
-      <Environment preset="city" />
-
-      {/* Camera rig for pointer tracking */}
-      <CameraRig isMobile={isMobile} />
+        </bufferGeometry>
+        <pointsMaterial
+          attach="material"
+          size={0.015}
+          color="#AAAAAA"
+          transparent
+          opacity={0.3}
+        />
+      </points>
     </>
   )
 }
 
-interface HeroSceneProps {
-  isMobile: boolean
-}
-
-export const HeroScene: React.FC<HeroSceneProps> = ({ isMobile }) => {
+export const HeroScene: React.FC = () => {
   return (
     <Canvas
       camera={{
-        position: [0, 0, 6],
+        position: [0, 0, 7],
         fov: 45,
         near: 0.1,
-        far: 1000,
+        far: 100,
       }}
       dpr={[1, 1.5]}
       style={{
@@ -127,9 +136,16 @@ export const HeroScene: React.FC<HeroSceneProps> = ({ isMobile }) => {
         position: 'absolute',
         top: 0,
         left: 0,
+        zIndex: 0,
+      }}
+      gl={{
+        powerPreference: 'high-performance',
+        antialias: false,
+        stencil: false,
+        depth: false,
       }}
     >
-      <SceneContent isMobile={isMobile} />
+      <Scene />
     </Canvas>
   )
 }

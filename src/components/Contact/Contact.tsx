@@ -5,7 +5,11 @@ import styles from './Contact.module.css'
 
 export const Contact: React.FC = () => {
   const { t } = useTranslation()
-  const { ref: refForm, isInView } = useScrollReveal(0)
+  const labelRef = useScrollReveal<HTMLLabelElement>()
+  const headingRef = useScrollReveal<HTMLHeadingElement>()
+  const introRef = useScrollReveal<HTMLParagraphElement>()
+  const infoRef = useScrollReveal<HTMLDivElement>()
+  const formRef = useScrollReveal<HTMLDivElement>()
 
   const [formData, setFormData] = useState({
     name: '',
@@ -73,14 +77,14 @@ export const Contact: React.FC = () => {
   return (
     <section id="contact" className={styles.contact}>
       <div className={styles.left}>
-        <label className={styles.label}>{t('contact.label')}</label>
-        <h2 className={styles.heading}>{t('contact.heading')}</h2>
+        <label className={`${styles.label} reveal-label`} ref={labelRef}>{t('contact.label')}</label>
+        <h2 className={`${styles.heading} reveal-title`} ref={headingRef}>{t('contact.heading')}</h2>
 
         <div className={styles.divider} aria-hidden="true"></div>
 
-        <p className={styles.intro}>{t('contact.intro')}</p>
+        <p className={`${styles.intro} reveal-body`} ref={introRef}>{t('contact.intro')}</p>
 
-        <div className={styles.info}>
+        <div className={`${styles.info} reveal-body`} ref={infoRef}>
           <a href={`mailto:${t('contact.email')}`} className={styles.email}>
             {t('contact.email')}
           </a>
@@ -88,7 +92,7 @@ export const Contact: React.FC = () => {
         </div>
       </div>
 
-      <div ref={refForm as React.Ref<HTMLDivElement>} className={styles.right}>
+      <div ref={formRef} className={`${styles.right} reveal-card`}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.row}>
             <input

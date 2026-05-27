@@ -72,26 +72,32 @@ const OrbitalSVG = () => (
 
 export const Portfolio: React.FC = () => {
   const { t } = useTranslation()
+  const titleRef = useScrollReveal<HTMLHeadingElement>()
+  const descriptionRef = useScrollReveal<HTMLParagraphElement>()
 
   const items = [
     { key: 'item1', svg: <AurumSVG />, featured: true },
     { key: 'item2', svg: <NovaTechSVG />, featured: false },
     { key: 'item3', svg: <GeometrySVG />, featured: false },
     { key: 'item4', svg: <FormSVG />, featured: false },
-    { key: 'item5', svg: <OrbitalSVG />, featured: false },
+    { key: 'item5', svg: <OrbitalSVG />, featured: true },
   ]
 
   return (
     <section id="portfolio" className={styles.portfolio}>
-      <h2 className={styles.title}>{t('portfolio.title')}</h2>
+      <div className={styles.header}>
+        <h2 className={`${styles.title} reveal-title`} ref={titleRef}>{t('portfolio.title')}</h2>
+        <p className={`${styles.description} reveal-body`} ref={descriptionRef}>{t('portfolio.description')}</p>
+      </div>
 
       <div className={styles.grid}>
         {items.map((item, index) => (
           <PortfolioItem
-            key={index}
+            key={item.key}
             itemKey={item.key}
             svg={item.svg}
-            featured={item.featured}
+            isFeatured={item.featured}
+            delayOffset={index * 100}
           />
         ))}
       </div>
@@ -102,43 +108,44 @@ export const Portfolio: React.FC = () => {
 interface PortfolioItemProps {
   itemKey: string
   svg: React.ReactNode
-  featured: boolean
+  isFeatured: boolean
+  delayOffset: number
 }
 
-const PortfolioItem: React.FC<PortfolioItemProps> = ({ itemKey, svg, featured }) => {
+const PortfolioItem: React.FC<PortfolioItemProps> = ({ itemKey, svg, isFeatured, delayOffset }) => {
   const { t } = useTranslation()
-  const { ref, isInView } = useScrollReveal(0)
+  const ref = useScrollReveal<HTMLDivElement>()
   const mouseRef = useMouseTrack()
   const prefersReducedMotion = useReducedMotion()
   const [isHovered, setIsHovered] = useState(false)
 
+  const itemStyle = {
+    transitionDelay: prefersReducedMotion ? '0ms' : `${delayOffset}ms`,
+  }
+
   return (
     <div
-      ref={mouseRef}
-      className={`${styles.item} ${featured ? styles.featured : ''}`}
+      ref={ref}
+      className={`${styles.item} ${isFeatured ? styles.featured : ''} reveal-card`}
+      style={itemStyle}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       role="article"
       aria-label={t(`portfolio.${itemKey}.name`)}
-      style={{
-        opacity: isInView ? 1 : 0,
-        transform: isInView ? 'translateY(0)' : 'translateY(32px)',
-        transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s ease-out',
-      }}
     >
-      <div className={styles.imageWrapper}>
+      <div className={styles.imageWrapper} ref={mouseRef as React.Ref<HTMLDivElement>}>
         <div className={styles.image} aria-hidden="true">{svg}</div>
         <motion.div 
           className={styles.overlay}
           initial={{ opacity: 0 }}
           animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ ease: [0.77, 0, 0.175, 1], duration: prefersReducedMotion ? 0 : 0.3 }}
+          transition={{ ease: 'easeOut', duration: prefersReducedMotion ? 0 : 0.3 }}
         >
           <motion.div 
             className={styles.meta}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: isHovered ? 1 : 0.9, opacity: isHovered ? 1 : 0 }}
-            transition={{ ease: [0.77, 0, 0.175, 1], duration: prefersReducedMotion ? 0 : 0.3, delay: isHovered ? 0.1 : 0 }}
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: isHovered ? 1 : 0.95, opacity: isHovered ? 1 : 0 }}
+            transition={{ ease: 'easeOut', duration: prefersReducedMotion ? 0 : 0.3, delay: isHovered ? 0.1 : 0 }}
           >
             <span className={styles.category}>
               {t(`portfolio.${itemKey}.category`)}

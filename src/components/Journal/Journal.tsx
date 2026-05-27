@@ -15,29 +15,20 @@ interface JournalEntry {
 
 export function Journal() {
   const { t } = useTranslation()
-  const { ref, isInView } = useScrollReveal()
-  const prefersReducedMotion = useReducedMotion()
+  const titleRef = useScrollReveal<HTMLHeadingElement>()
+  const gridRef = useScrollReveal<HTMLDivElement>()
   const [entries, setEntries] = useState<JournalEntry[]>([])
 
   useEffect(() => {
-    // Parse entries from i18n
     try {
-      const journalData = t('journal', { returnObjects: true })
-      const articles: JournalEntry[] = []
-      
-      let idx = 1
-      while (journalData[`article${idx}`]) {
-        const article = journalData[`article${idx}`]
-        articles.push({
-          id: idx,
-          category: article.category || '',
-          date: article.date || '',
-          title: article.title || '',
-          excerpt: article.excerpt || ''
-        })
-        idx++
-      }
-      
+      const journalData = t('journal.articles', { returnObjects: true }) as any
+      const articles: JournalEntry[] = Object.keys(journalData).map((key, idx) => ({
+        id: idx + 1,
+        category: journalData[key].category || '',
+        date: journalData[key].date || '',
+        title: journalData[key].title || '',
+        excerpt: journalData[key].excerpt || ''
+      }))
       setEntries(articles)
     } catch (e) {
       console.error('Failed to load journal entries:', e)
@@ -45,59 +36,58 @@ export function Journal() {
     }
   }, [t])
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.1,
-        delayChildren: 0,
-      },
-    },
-  }
+  return (
+    <section id="journal" className={styles.journal}>
+      <h2 className={`${styles.title} reveal-title`} ref={titleRef}>
+        {t('journal.title')}
+      </h2>
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 32 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: prefersReducedMotion ? 0 : 0.7,
-      },
-    },
+      <div className={`${styles.grid} reveal-body`} ref={gridRef}>
+        {entries.map((entry, index) => (
+          <JournalCard 
+            key={entry.id} 
+            entry={entry} 
+            delayOffset={index * 150}
+          />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+interface JournalCardProps {
+  entry: JournalEntry
+  delayOffset: number
+}
+
+const JournalCard: React.FC<JournalCardProps> = ({ entry, delayOffset }) => {
+  const { t } = useTranslation()
+  const ref = useScrollReveal()
+  const prefersReducedMotion = useReducedMotion()
+
+  const cardStyle = {
+    transitionDelay: prefersReducedMotion ? '0ms' : `${delayOffset}ms`,
   }
 
   return (
-    <section className={styles.journal} ref={ref} id="journal">
-      <h2 className={styles.title}>{t('journal.title', 'Journal')}</h2>
-      <motion.div 
-        className={styles.grid}
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-      >
-        {entries.map((entry) => (
-          <motion.article
-            key={entry.id}
-            className={styles.card}
-            variants={cardVariants}
-          >
-            <div className={styles.header}>
-              <span className={styles.category}>{entry.category}</span>
-              <span className={styles.date}>{entry.date}</span>
-            </div>
-            <h3 className={styles.cardTitle}>{entry.title}</h3>
-            <p className={styles.excerpt}>{entry.excerpt}</p>
-            <div className={styles.footer}>
-              <a href="#" className={styles.readMore} aria-label={`Read more about: ${entry.title}`}>
-                {t('common.readMore', 'Read More')}
-                <span className={styles.arrow} aria-hidden="true">→</span>
-              </a>
-            </div>
-          </motion.article>
-        ))}
-      </motion.div>
-    </section>
+    <article
+      ref={ref}
+      className={`${styles.card} reveal-card`}
+      style={cardStyle}
+    >
+      <div className={styles.header}>
+        <span className={styles.category}>{entry.category}</span>
+        <span className={styles.date}>{entry.date}</span>
+      </div>
+      <h3 className={styles.cardTitle}>{entry.title}</h3>
+      <p className={styles.excerpt}>{entry.excerpt}</p>
+      <div className={styles.footer}>
+        <a href="#" className={styles.readMore} aria-label={`Read more about: ${entry.title}`}>
+          {t('common.readMore', 'Read More')}
+          <span className={styles.arrow} aria-hidden="true">→</span>
+        </a>
+      </div>
+    </article>
   )
 }
 

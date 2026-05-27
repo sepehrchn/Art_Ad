@@ -21,15 +21,7 @@ const CanvasPlaceholder = () => (
 export const Hero: React.FC = () => {
   const { t } = useTranslation()
   const containerRef = useRef<HTMLDivElement>(null)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
-
-  React.useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  const contentRef = useScrollReveal<HTMLDivElement>({ once: true, threshold: 0.2 })
 
   const handleScrollHint = () => {
     const servicesSection = document.getElementById('services')
@@ -52,35 +44,20 @@ export const Hero: React.FC = () => {
     }
   }
 
-  // Content reveal animation
-  const { ref: contentRef, isInView } = useScrollReveal(0.2)
-  const shouldReveal = isInView
-
   return (
     <section id="hero" className={styles.hero} ref={containerRef}>
-      <Suspense fallback={<div className={styles.canvas} />}>
-        <HeroScene isMobile={isMobile} />
-      </Suspense>
-
-      <div ref={contentRef as React.Ref<HTMLDivElement>} className={styles.content}>
+        <Suspense fallback={<CanvasPlaceholder />}>
+          <HeroScene />
+        </Suspense>
+      <div ref={contentRef} className={styles.content}>
         <div 
-          className={styles.eyebrow}
-          style={{ 
-            opacity: shouldReveal ? 1 : 0,
-            transform: shouldReveal ? 'translateY(0)' : 'translateY(32px)',
-            transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0s'
-          }}
+          className={`${styles.eyebrow} reveal-label`}
         >
           {t('hero.eyebrow')}
         </div>
 
         <h1 
-          className={styles.title}
-          style={{ 
-            opacity: shouldReveal ? 1 : 0,
-            transform: shouldReveal ? 'translateY(0)' : 'translateY(32px)',
-            transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.12s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.12s'
-          }}
+          className={`${styles.title} reveal-title`}
         >
           {t('hero.title').split('Art').map((part, i, arr) => (
             <span key={i}>
@@ -91,37 +68,22 @@ export const Hero: React.FC = () => {
         </h1>
 
         <p 
-          className={styles.subtitle}
-          style={{ 
-            opacity: shouldReveal ? 1 : 0,
-            transform: shouldReveal ? 'translateY(0)' : 'translateY(32px)',
-            transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.24s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.24s'
-          }}
+          className={`${styles.subtitle} reveal-body`}
         >
           {t('hero.subtitle')}
         </p>
 
         <div 
-          className={styles.ctas}
-          style={{ 
-            opacity: shouldReveal ? 1 : 0,
-            transform: shouldReveal ? 'translateY(0)' : 'translateY(32px)',
-            transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.36s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.36s'
-          }}
+          className={`${styles.ctas} reveal-body`}
         >
           <button className={styles.ctaPrimary} onClick={handlePrimaryCTA} aria-label={t('hero.cta1')}>{t('hero.cta1')}</button>
           <button className={styles.ctaSecondary} onClick={handleSecondaryCTA} aria-label={t('hero.cta2')}>{t('hero.cta2')}</button>
         </div>
 
         <button
-          className={styles.scrollHint}
+          className={`${styles.scrollHint} reveal-body`}
           onClick={handleScrollHint}
           aria-label="Scroll to see more"
-          style={{ 
-            opacity: shouldReveal ? 1 : 0,
-            transform: shouldReveal ? 'translateY(0)' : 'translateY(32px)',
-            transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.48s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.48s'
-          }}
         >
           <span className={styles.line} aria-hidden="true"></span>
           <span className={styles.text}>{t('hero.scrollHint')}</span>

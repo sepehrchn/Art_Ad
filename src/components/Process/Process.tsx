@@ -5,12 +5,13 @@ import styles from './Process.module.css'
 
 export const Process: React.FC = () => {
   const { t } = useTranslation()
+  const titleRef = useScrollReveal<HTMLHeadingElement>()
 
   const steps = ['step1', 'step2', 'step3', 'step4', 'step5']
 
   return (
     <section id="process" className={styles.process}>
-      <h2 className={styles.title}>{t('process.title')}</h2>
+      <h2 className={`${styles.title} reveal-title`} ref={titleRef}>{t('process.title')}</h2>
 
       <div className={styles.container}>
         <div className={styles.line}></div>
@@ -21,6 +22,7 @@ export const Process: React.FC = () => {
               key={index}
               stepKey={step}
               index={index}
+              delayOffset={index * 150}
             />
           ))}
         </div>
@@ -32,21 +34,22 @@ export const Process: React.FC = () => {
 interface ProcessStepProps {
   stepKey: string
   index: number
+  delayOffset: number
 }
 
-const ProcessStep: React.FC<ProcessStepProps> = ({ stepKey, index }) => {
+const ProcessStep: React.FC<ProcessStepProps> = ({ stepKey, index, delayOffset }) => {
   const { t } = useTranslation()
-  const { ref, isInView } = useScrollReveal(0)
+  const ref = useScrollReveal<HTMLDivElement>()
+
+  const stepStyle = {
+    transitionDelay: `${delayOffset}ms`,
+  }
 
   return (
     <div
-      ref={ref as React.Ref<HTMLDivElement>}
-      className={styles.step}
-      style={{
-        opacity: isInView ? 1 : 0,
-        transform: isInView ? 'translateY(0)' : 'translateY(32px)',
-        transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-      }}
+      ref={ref}
+      className={`${styles.step} reveal-card`}
+      style={stepStyle}
     >
       <div className={styles.badge}>
         {index + 1}
