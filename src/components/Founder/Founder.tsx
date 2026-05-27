@@ -4,7 +4,7 @@ import { useScrollReveal } from '../../hooks/useScrollReveal'
 import styles from './Founder.module.css'
 
 const PortraitSVG = () => (
-  <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <filter id="grain">
         <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise" />

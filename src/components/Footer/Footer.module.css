@@ -1,5 +1,5 @@
 .footer {
-  padding: 80px 5vw;
+  padding: var(--section-padding-y-tablet) 5vw;
   border-top: 1px solid var(--border);
   background-color: var(--bg);
   display: flex;
@@ -94,7 +94,7 @@
 
 @media (max-width: 600px) {
   .footer {
-    padding: 60px 5vw;
+    padding: var(--section-padding-y-mobile) 5vw;
     gap: 32px;
   }
 

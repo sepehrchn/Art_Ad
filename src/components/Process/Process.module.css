@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 80px;
-  padding: 120px 5vw;
+  padding: var(--section-padding-y) 5vw;
   background-color: var(--bg);
 }
 
@@ -122,9 +122,16 @@
   }
 }
 
+@media (max-width: 768px) {
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+  }
+}
+
 @media (max-width: 600px) {
   .process {
-    padding: 60px 5vw;
+    padding: var(--section-padding-y-mobile) 5vw;
     gap: 60px;
   }
 

@@ -6,7 +6,7 @@ import styles from './Portfolio.module.css'
 
 // SVG Components
 const AurumSVG = () => (
-  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <radialGradient id="aurum-grad" cx="50%" cy="50%" r="50%">
         <stop offset="0%" style={{ stopColor: '#C9A84C', stopOpacity: 0.6 }} />
@@ -22,7 +22,7 @@ const AurumSVG = () => (
 )
 
 const NovaTechSVG = () => (
-  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <radialGradient id="nova-grad" cx="50%" cy="50%" r="50%">
         <stop offset="0%" style={{ stopColor: '#C9A84C', stopOpacity: 0.5 }} />
@@ -36,7 +36,7 @@ const NovaTechSVG = () => (
 )
 
 const GeometrySVG = () => (
-  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <line x1="0" y1="400" x2="400" y2="0" stroke="#C9A84C" strokeWidth="2" opacity="0.25" />
     <line x1="100" y1="400" x2="400" y2="100" stroke="#C9A84C" strokeWidth="1.5" opacity="0.2" />
     <circle cx="200" cy="100" r="50" fill="none" stroke="#C9A84C" strokeWidth="2" opacity="0.3" />
@@ -46,7 +46,7 @@ const GeometrySVG = () => (
 )
 
 const FormSVG = () => (
-  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
         <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#C9A84C" strokeWidth="1" opacity="0.2" />
@@ -59,7 +59,7 @@ const FormSVG = () => (
 )
 
 const OrbitalSVG = () => (
-  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <circle cx="100" cy="200" r="40" fill="none" stroke="#C9A84C" strokeWidth="2" opacity="0.4" />
     <circle cx="200" cy="200" r="60" fill="none" stroke="#C9A84C" strokeWidth="2" opacity="0.35" />
     <circle cx="300" cy="200" r="40" fill="none" stroke="#C9A84C" strokeWidth="2" opacity="0.4" />

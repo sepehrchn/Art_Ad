@@ -68,9 +68,10 @@ export const AgentPanel: React.FC = () => {
       <button
         className={styles.fab}
         onClick={() => setIsOpen(!isOpen)}
-        title="Open assistant"
+        aria-label={isOpen ? 'Close assistant' : 'Open assistant'}
+        aria-expanded={isOpen}
       >
-        ✦
+        {isOpen ? '×' : '✦'}
       </button>
 
       {isOpen && (

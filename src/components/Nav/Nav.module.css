@@ -66,6 +66,27 @@
   border-bottom-color: var(--gold);
 }
 
+.ctaButton {
+  padding: 8px 20px;
+  background-color: var(--gold);
+  color: var(--bg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  border: 1px solid var(--gold);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.ctaButton:hover {
+  background-color: transparent;
+  color: var(--gold);
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.2);
+}
+
 .languageToggle {
   display: flex;
   gap: 2px;
@@ -159,6 +180,26 @@
 }
 
 .mobileLink:hover {
+  color: var(--gold);
+}
+
+.mobileCta {
+  padding: 14px 32px;
+  background-color: var(--gold);
+  color: var(--bg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  border: 1px solid var(--gold);
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.mobileCta:hover {
+  background-color: transparent;
   color: var(--gold);
 }
 

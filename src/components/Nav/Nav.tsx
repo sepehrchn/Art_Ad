@@ -23,9 +23,8 @@ export const Nav: React.FC = () => {
   const navItems = [
     { key: 'work', id: 'portfolio' },
     { key: 'services', id: 'services' },
-    { key: 'studio', id: 'stats' },
+    { key: 'process', id: 'process' },
     { key: 'founder', id: 'founder' },
-    { key: 'journal', id: 'journal' },
     { key: 'contact', id: 'contact' },
   ]
 
@@ -33,6 +32,14 @@ export const Nav: React.FC = () => {
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
+      setMobileMenuOpen(false)
+    }
+  }
+
+  const handleCTA = () => {
+    const contactSection = document.getElementById('contact')
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' })
       setMobileMenuOpen(false)
     }
   }
@@ -67,6 +74,10 @@ export const Nav: React.FC = () => {
             ))}
           </div>
 
+          <button className={styles.ctaButton} onClick={handleCTA}>
+            {t('nav.cta')}
+          </button>
+
           <div className={styles.languageToggle}>
             {['en', 'ru', 'fa'].map((lang) => (
               <button
@@ -75,6 +86,8 @@ export const Nav: React.FC = () => {
                   i18n.language === lang ? styles.activeLanguage : ''
                 }`}
                 onClick={() => handleLanguageChange(lang)}
+                aria-label={`Switch to ${lang === 'en' ? 'English' : lang === 'ru' ? 'Russian' : 'Persian'}`}
+                aria-pressed={i18n.language === lang}
               >
                 {lang.toUpperCase()}
               </button>
@@ -84,6 +97,8 @@ export const Nav: React.FC = () => {
           <button
             className={`${styles.hamburger} ${mobileMenuOpen ? styles.open : ''}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
           >
             <span></span>
             <span></span>
@@ -106,6 +121,10 @@ export const Nav: React.FC = () => {
             ))}
           </div>
 
+          <button className={styles.mobileCta} onClick={handleCTA}>
+            {t('nav.cta')}
+          </button>
+
           <div className={styles.mobileLanguageToggle}>
             {['en', 'ru', 'fa'].map((lang) => (
               <button
@@ -114,6 +133,8 @@ export const Nav: React.FC = () => {
                   i18n.language === lang ? styles.activeLanguage : ''
                 }`}
                 onClick={() => handleLanguageChange(lang)}
+                aria-label={`Switch to ${lang === 'en' ? 'English' : lang === 'ru' ? 'Russian' : 'Persian'}`}
+                aria-pressed={i18n.language === lang}
               >
                 {lang.toUpperCase()}
               </button>

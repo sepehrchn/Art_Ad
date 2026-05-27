@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 100px;
-  padding: 120px 5vw;
+  padding: var(--section-padding-y) 5vw;
   background-color: var(--bg);
   align-items: start;
 }
@@ -201,7 +201,7 @@
 
 @media (max-width: 600px) {
   .contact {
-    padding: 60px 5vw;
+    padding: var(--section-padding-y-mobile) 5vw;
     gap: 40px;
   }
 

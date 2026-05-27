@@ -32,6 +32,20 @@ export const Hero: React.FC = () => {
     }
   }
 
+  const handlePrimaryCTA = () => {
+    const contactSection = document.getElementById('contact')
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  const handleSecondaryCTA = () => {
+    const portfolioSection = document.getElementById('portfolio')
+    if (portfolioSection) {
+      portfolioSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   const shouldReveal = isRevealed || showContent
 
   return (
@@ -81,8 +95,8 @@ export const Hero: React.FC = () => {
             ...(shouldReveal ? { opacity: 1, transform: 'translateY(0)' } : {})
           }}
         >
-          <button className={styles.ctaPrimary}>{t('hero.cta1')}</button>
-          <button className={styles.ctaSecondary}>{t('hero.cta2')}</button>
+          <button className={styles.ctaPrimary} onClick={handlePrimaryCTA}>{t('hero.cta1')}</button>
+          <button className={styles.ctaSecondary} onClick={handleSecondaryCTA}>{t('hero.cta2')}</button>
         </div>
 
         <button

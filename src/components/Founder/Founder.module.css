@@ -9,7 +9,7 @@
 
 .portraitPanel {
   background-color: var(--bg);
-  padding: 120px 5vw;
+  padding: var(--section-padding-y) 5vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -165,12 +165,12 @@
 
   .portraitPanel {
     order: 2;
-    padding: 80px 5vw;
+    padding: var(--section-padding-y-tablet) 5vw;
   }
 
   .contentPanel {
     order: 1;
-    padding: 60px 5vw;
+    padding: var(--section-padding-y-mobile) 5vw;
   }
 
   .contentPanel {
@@ -180,11 +180,11 @@
 
 @media (max-width: 600px) {
   .portraitPanel {
-    padding: 60px 5vw;
+    padding: var(--section-padding-y-mobile) 5vw;
   }
 
   .contentPanel {
-    padding: 60px 5vw;
+    padding: var(--section-padding-y-mobile) 5vw;
   }
 
   .quote {

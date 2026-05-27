@@ -2,22 +2,23 @@
   "nav": {
     "work": "Work",
     "services": "Services",
-    "studio": "Studio",
-    "founder": "Founder",
-    "journal": "Journal",
-    "contact": "Contact"
+    "process": "Process",
+    "founder": "About",
+    "contact": "Contact",
+    "cta": "Start a Project"
   },
   "hero": {
     "eyebrow": "Art Direction — Advertising — Creative Strategy",
     "title": "Where Art Shapes Attention.",
     "titleArt": "Art",
     "subtitle": "We craft brand experiences that transcend the ordinary. Through meticulous art direction and strategic creative thinking, we transform ideas into moments that captivate, persuade, and endure.",
-    "cta1": "View Our Work",
-    "cta2": "Start a Project",
+    "cta1": "Start a Project",
+    "cta2": "View Our Work",
     "scrollHint": "Scroll to explore"
   },
   "services": {
     "title": "Services",
+    "cta": "Start a Project",
     "service1": {
       "name": "Brand Worlds",
       "number": "01",

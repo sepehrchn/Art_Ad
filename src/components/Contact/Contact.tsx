@@ -98,6 +98,8 @@ export const Contact: React.FC = () => {
               value={formData.name}
               onChange={handleChange}
               className={`${styles.input} ${errors.name ? styles.error : ''}`}
+              aria-label={t('contact.form.name')}
+              aria-required="true"
             />
             <input
               type="email"
@@ -106,6 +108,9 @@ export const Contact: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               className={`${styles.input} ${errors.email ? styles.error : ''}`}
+              aria-label={t('contact.form.email')}
+              aria-required="true"
+              aria-invalid={errors.email}
             />
           </div>
 
@@ -117,6 +122,8 @@ export const Contact: React.FC = () => {
               className={`${styles.input} ${styles.select} ${
                 errors.service ? styles.error : ''
               }`}
+              aria-label={t('contact.form.service')}
+              aria-required="true"
             >
               <option value="">{t('contact.form.service')}</option>
               <option value="brand">{t('contact.serviceOptions.brand')}</option>
@@ -139,6 +146,7 @@ export const Contact: React.FC = () => {
               value={formData.budget}
               onChange={handleChange}
               className={`${styles.input} ${styles.select}`}
+              aria-label={t('contact.form.budget')}
             >
               <option value="">{t('contact.form.budget')}</option>
               <option value="small">{t('contact.budgetOptions.small')}</option>
@@ -155,6 +163,7 @@ export const Contact: React.FC = () => {
               value={formData.timeline}
               onChange={handleChange}
               className={`${styles.input} ${styles.select}`}
+              aria-label={t('contact.form.timeline')}
             >
               <option value="">{t('contact.form.timeline')}</option>
               <option value="quick">{t('contact.timelineOptions.quick')}</option>
@@ -176,6 +185,8 @@ export const Contact: React.FC = () => {
               className={`${styles.input} ${styles.textarea} ${
                 errors.message ? styles.error : ''
               }`}
+              aria-label={t('contact.form.message')}
+              aria-required="true"
               rows={5}
             />
           </div>

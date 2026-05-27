@@ -1,7 +1,7 @@
 .fab {
   position: fixed;
   bottom: 36px;
-  right: 36px;
+  left: 36px;
   width: 56px;
   height: 56px;
   border-radius: 50%;
@@ -26,7 +26,7 @@
 .panel {
   position: fixed;
   bottom: 108px;
-  right: 36px;
+  left: 36px;
   width: 380px;
   max-height: 540px;
   background-color: var(--surface);
@@ -262,7 +262,7 @@
   .panel {
     width: calc(100vw - 40px);
     max-width: calc(100vw - 40px);
-    right: 20px;
+    left: 20px;
     bottom: 100px;
     max-height: 70vh;
   }
@@ -277,6 +277,6 @@
 
   .fab {
     bottom: 20px;
-    right: 20px;
+    left: 20px;
   }
 }

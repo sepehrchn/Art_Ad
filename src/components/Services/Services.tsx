@@ -15,6 +15,13 @@ export const Services: React.FC = () => {
     { key: 'service4' },
   ]
 
+  const handleCTA = () => {
+    const contactSection = document.getElementById('contact')
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <section id="services" className={styles.services} ref={parallaxRef}>
       <h2 className={styles.title}>{t('services.title')}</h2>
@@ -27,6 +34,12 @@ export const Services: React.FC = () => {
             delayOffset={index * 150}
           />
         ))}
+      </div>
+
+      <div className={styles.ctaWrapper}>
+        <button className={styles.cta} onClick={handleCTA}>
+          {t('services.cta')}
+        </button>
       </div>
     </section>
   )
