@@ -61,6 +61,14 @@
     "item5": {
       "category": "Brand System",
       "name": "Orbital"
+    },
+    "item6": {
+      "category": "Editorial Design",
+      "name": "Form & Function"
+    },
+    "item7": {
+      "category": "Packaging Design",
+      "name": "Essence Collection"
     }
   },
   "process": {

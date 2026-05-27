@@ -1,6 +1,5 @@
-import React, { useRef, useMemo, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { TorusKnot, Sparkles } from '@react-three/drei'
 import * as THREE from 'three'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
@@ -9,117 +8,100 @@ interface SceneProps {
 }
 
 const Scene: React.FC<SceneProps> = ({ isPausedRef }) => {
-  const meshRef = useRef<THREE.Mesh>(null!)
-  const spotLightRef = useRef<THREE.SpotLight>(null!)
-  const sparklesRef1 = useRef<any>(null!)
-  const sparklesRef2 = useRef<any>(null!)
+  const torusRef = useRef<THREE.Mesh>(null!)
+  const ringRef1 = useRef<THREE.Mesh>(null!)
+  const ringRef2 = useRef<THREE.Mesh>(null!)
+  const ringRef3 = useRef<THREE.Mesh>(null!)
   const { size, mouse } = useThree()
   const prefersReducedMotion = useReducedMotion()
-
-  const particles1 = useMemo(() => {
-    const count = 500
-    const positions = new Float32Array(count * 3)
-    for (let i = 0; i < count * 3; i++) {
-      positions[i] = (Math.random() - 0.5) * 15
-    }
-    return positions
-  }, [])
 
   useFrame((state, delta) => {
     if (isPausedRef.current || prefersReducedMotion) return
 
     const time = state.clock.getElapsedTime()
-    const slowTime = time * 0.1
 
-    // Animate main shape
-    if (meshRef.current) {
-      meshRef.current.rotation.y = slowTime
-      meshRef.current.rotation.x = slowTime * 0.3
-      meshRef.current.position.y = Math.sin(slowTime * 0.5) * 0.2
+    // Main torus rotation
+    if (torusRef.current) {
+      torusRef.current.rotation.x = time * 0.3
+      torusRef.current.rotation.y = time * 0.2
     }
 
-    // Animate spotlight
-    if (spotLightRef.current) {
-      spotLightRef.current.position.x = Math.cos(slowTime * 0.15) * 5
-      spotLightRef.current.position.y = 2 + Math.sin(slowTime * 0.15) * 2
+    // Orbiting rings
+    if (ringRef1.current) {
+      ringRef1.current.rotation.x = time * 0.5
+      ringRef1.current.rotation.z = time * 0.3
     }
-
-    // Animate particle layers for parallax
-    const parallaxX = mouse.x * 0.5
-    const parallaxY = mouse.y * 0.5
-    if (sparklesRef1.current) {
-      sparklesRef1.current.position.x += (parallaxX - sparklesRef1.current.position.x) * 0.5 * delta
-      sparklesRef1.current.position.y += (parallaxY - sparklesRef1.current.position.y) * 0.5 * delta
+    if (ringRef2.current) {
+      ringRef2.current.rotation.y = time * 0.4
+      ringRef2.current.rotation.z = -time * 0.2
     }
-    if (sparklesRef2.current) {
-      sparklesRef2.current.position.x += (parallaxX - sparklesRef2.current.position.x) * 0.2 * delta
-      sparklesRef2.current.position.y += (parallaxY - sparklesRef2.current.position.y) * 0.2 * delta
+    if (ringRef3.current) {
+      ringRef3.current.rotation.x = -time * 0.3
+      ringRef3.current.rotation.y = time * 0.5
     }
   })
 
   return (
     <>
-      <hemisphereLight groundColor={new THREE.Color('#444444')} intensity={0.4} />
-      <spotLight
-        ref={spotLightRef}
-        position={[5, 5, 5]}
-        angle={0.8}
-        penumbra={0.8}
-        intensity={1.8}
-        castShadow
-        color="#F0EBE0"
-      />
+      {/* Strong directional lighting */}
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[5, 5, 5]} intensity={2} color="#F0EBE0" />
+      <directionalLight position={[-5, -5, -5]} intensity={1} color="#C9A84C" />
+      <pointLight position={[0, 0, 0]} intensity={1.5} color="#D4AF37" />
 
-      <TorusKnot ref={meshRef} args={[1, 0.35, 256, 24]}>
+      {/* Main golden torus */}
+      <mesh ref={torusRef}>
+        <torusGeometry args={[1.5, 0.5, 32, 100]} />
         <meshStandardMaterial
-          metalness={0.4}
-          roughness={0.2}
           color="#C9A84C"
+          metalness={0.9}
+          roughness={0.1}
+          emissive="#D4AF37"
+          emissiveIntensity={0.4}
         />
-      </TorusKnot>
+      </mesh>
 
-      {/* Layer 1 - Fast, foreground */}
-      <group ref={sparklesRef1}>
-        <Sparkles
-          count={80}
-          scale={size.width < 768 ? 4 : 6}
-          size={1.5}
-          speed={0.1}
-          noise={0.1}
-          color="#D4AF37"
-        />
-      </group>
-
-      {/* Layer 2 - Slow, mid-ground */}
-      <group ref={sparklesRef2}>
-        <Sparkles
-          count={40}
-          scale={size.width < 768 ? 8 : 12}
-          size={2.5}
-          speed={0.05}
-          noise={0.05}
-          color="#FFFFFF"
-        />
-      </group>
-
-      {/* Layer 3 - Static, background */}
-      <points>
-        <bufferGeometry attach="geometry">
-          <bufferAttribute
-            attach="attributes-position"
-            count={particles1.length / 3}
-            array={particles1}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          attach="material"
-          size={0.015}
-          color="#AAAAAA"
+      {/* Orbiting ring 1 */}
+      <mesh ref={ringRef1}>
+        <torusGeometry args={[2.5, 0.08, 16, 100]} />
+        <meshStandardMaterial
+          color="#F0EBE0"
+          metalness={0.8}
+          roughness={0.2}
+          emissive="#F0EBE0"
+          emissiveIntensity={0.2}
           transparent
-          opacity={0.3}
+          opacity={0.6}
         />
-      </points>
+      </mesh>
+
+      {/* Orbiting ring 2 */}
+      <mesh ref={ringRef2}>
+        <torusGeometry args={[3, 0.06, 16, 100]} />
+        <meshStandardMaterial
+          color="#C9A84C"
+          metalness={0.8}
+          roughness={0.2}
+          emissive="#C9A84C"
+          emissiveIntensity={0.3}
+          transparent
+          opacity={0.5}
+        />
+      </mesh>
+
+      {/* Orbiting ring 3 */}
+      <mesh ref={ringRef3}>
+        <torusGeometry args={[3.5, 0.05, 16, 100]} />
+        <meshStandardMaterial
+          color="#8B6E2E"
+          metalness={0.7}
+          roughness={0.3}
+          emissive="#8B6E2E"
+          emissiveIntensity={0.2}
+          transparent
+          opacity={0.4}
+        />
+      </mesh>
     </>
   )
 }

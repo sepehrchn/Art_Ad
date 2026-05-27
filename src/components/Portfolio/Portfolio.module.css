@@ -41,10 +41,8 @@
 .image {
   width: 100%;
   height: 100%;
-  background-color: var(--surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
+  display: block;
   transition: transform 0.8s var(--ease-luxury);
 }
 

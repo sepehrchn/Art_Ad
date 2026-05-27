@@ -50,19 +50,21 @@ export const Hero: React.FC = () => {
           <HeroScene />
         </Suspense>
       <div ref={contentRef} className={styles.content}>
-        <div 
-          className={`${styles.eyebrow} reveal-label gold-shimmer`}
-        >
-          {t('hero.eyebrow')}
+        <div className={styles.eyebrowWrapper}>
+          <span className={styles.accentLine}></span>
+          <div 
+            className={`${styles.eyebrow} reveal-label gold-shimmer`}
+          >
+            {t('hero.eyebrow')}
+          </div>
         </div>
 
         <h1 
           className={`${styles.title} reveal-title`}
         >
-          {t('hero.title').split('Art').map((part, i, arr) => (
-            <span key={i}>
-              {part}
-              {i < arr.length - 1 && <em>{t('hero.titleArt')}</em>}
+          {t('hero.title').split(' ').map((word, i) => (
+            <span key={i} className={styles.word} style={{ '--word-index': i } as React.CSSProperties}>
+              {word === 'Art' ? <em className="gold-shimmer">{word}</em> : word}{' '}
             </span>
           ))}
         </h1>
@@ -76,8 +78,13 @@ export const Hero: React.FC = () => {
         <div 
           className={`${styles.ctas} reveal-body`}
         >
-          <button className={styles.ctaPrimary} onClick={handlePrimaryCTA} aria-label={t('hero.cta1')}>{t('hero.cta1')}</button>
-          <button className={styles.ctaSecondary} onClick={handleSecondaryCTA} aria-label={t('hero.cta2')}>{t('hero.cta2')}</button>
+          <button className={styles.ctaPrimary} onClick={handlePrimaryCTA} aria-label={t('hero.cta1')}>
+            <span>{t('hero.cta1')}</span>
+            <span className={styles.ctaArrow}>→</span>
+          </button>
+          <button className={styles.ctaSecondary} onClick={handleSecondaryCTA} aria-label={t('hero.cta2')}>
+            {t('hero.cta2')}
+          </button>
         </div>
 
         <button

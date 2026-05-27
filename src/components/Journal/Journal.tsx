@@ -11,6 +11,7 @@ interface JournalEntry {
   date: string
   title: string
   excerpt: string
+  image: string
 }
 
 export function Journal() {
@@ -21,13 +22,23 @@ export function Journal() {
   useEffect(() => {
     try {
       const journalData = t('journal.articles', { returnObjects: true }) as any
-      const articles: JournalEntry[] = Object.keys(journalData).map((key, idx) => ({
-        id: idx + 1,
-        category: journalData[key].category || '',
-        date: journalData[key].date || '',
-        title: journalData[key].title || '',
-        excerpt: journalData[key].excerpt || ''
-      }))
+      const images = [
+        '/images/journal/article-1.jpg',
+        '/images/journal/article-2.jpg',
+        '/images/journal/article-3.jpg'
+      ]
+      const articleKeys = ['article1', 'article2', 'article3']
+      const articles: JournalEntry[] = articleKeys.map((key, idx) => {
+        const article = t(`journal.${key}`, { returnObjects: true }) as any
+        return {
+          id: idx + 1,
+          category: article.category || '',
+          date: article.date || '',
+          title: article.title || '',
+          excerpt: article.excerpt || '',
+          image: images[idx]
+        }
+      })
       setEntries(articles)
     } catch (e) {
       console.error('Failed to load journal entries:', e)
@@ -74,6 +85,9 @@ const JournalCard: React.FC<JournalCardProps> = ({ entry, delayOffset }) => {
       className={`${styles.card} reveal-card`}
       style={cardStyle}
     >
+      <div className={styles.thumbnail}>
+        <img src={entry.image} alt={entry.title} />
+      </div>
       <div className={styles.header}>
         <span className={styles.category}>{entry.category}</span>
         <span className={styles.date}>{entry.date}</span>
