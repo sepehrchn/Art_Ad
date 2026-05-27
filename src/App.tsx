@@ -38,7 +38,7 @@ i18n.use(initReactI18next).init({
 
 export const App: React.FC = () => {
   const { i18n: i18nInstance } = useTranslation()
-  const [showLoader, setShowLoader] = useState(false)
+  const [showLoader, setShowLoader] = useState(true)
 
   useEffect(() => {
     // Set document direction based on language

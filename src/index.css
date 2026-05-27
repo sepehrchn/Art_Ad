@@ -340,12 +340,19 @@ input, textarea, select {
 /* REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .reveal-label,
+  .reveal-title,
+  .reveal-body,
+  .reveal-card {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+  .gold-shimmer {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: var(--gold);
+    color: var(--gold);
   }
 }
 

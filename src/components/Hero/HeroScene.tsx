@@ -1,10 +1,14 @@
-import React, { useRef, useMemo } from 'react'
+import React, { useRef, useMemo, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { TorusKnot, Sparkles } from '@react-three/drei'
 import * as THREE from 'three'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
-const Scene: React.FC = () => {
+interface SceneProps {
+  isPausedRef: React.RefObject<boolean>
+}
+
+const Scene: React.FC<SceneProps> = ({ isPausedRef }) => {
   const meshRef = useRef<THREE.Mesh>(null!)
   const spotLightRef = useRef<THREE.SpotLight>(null!)
   const sparklesRef1 = useRef<any>(null!)
@@ -22,7 +26,7 @@ const Scene: React.FC = () => {
   }, [])
 
   useFrame((state, delta) => {
-    if (prefersReducedMotion) return
+    if (isPausedRef.current || prefersReducedMotion) return
 
     const time = state.clock.getElapsedTime()
     const slowTime = time * 0.1
@@ -36,8 +40,8 @@ const Scene: React.FC = () => {
 
     // Animate spotlight
     if (spotLightRef.current) {
-      spotLightRef.current.position.x = Math.cos(slowTime * 0.5) * 5
-      spotLightRef.current.position.y = 2 + Math.sin(slowTime * 0.5) * 2
+      spotLightRef.current.position.x = Math.cos(slowTime * 0.15) * 5
+      spotLightRef.current.position.y = 2 + Math.sin(slowTime * 0.15) * 2
     }
 
     // Animate particle layers for parallax
@@ -121,31 +125,47 @@ const Scene: React.FC = () => {
 }
 
 export const HeroScene: React.FC = () => {
+  const isPausedRef = useRef(false)
+  const canvasContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = canvasContainerRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => { isPausedRef.current = !entry.isIntersecting },
+      { threshold: 0 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <Canvas
-      camera={{
-        position: [0, 0, 7],
-        fov: 45,
-        near: 0.1,
-        far: 100,
-      }}
-      dpr={[1, 1.5]}
-      style={{
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        zIndex: 0,
-      }}
-      gl={{
-        powerPreference: 'high-performance',
-        antialias: false,
-        stencil: false,
-        depth: false,
-      }}
-    >
-      <Scene />
-    </Canvas>
+    <div ref={canvasContainerRef} style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
+      <Canvas
+        camera={{
+          position: [0, 0, 7],
+          fov: 45,
+          near: 0.1,
+          far: 100,
+        }}
+        dpr={[1, 1.5]}
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          zIndex: 0,
+        }}
+        gl={{
+          powerPreference: 'high-performance',
+          antialias: false,
+          stencil: false,
+          depth: false,
+        }}
+      >
+        <Scene isPausedRef={isPausedRef} />
+      </Canvas>
+    </div>
   )
 }

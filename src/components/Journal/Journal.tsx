@@ -16,7 +16,6 @@ interface JournalEntry {
 export function Journal() {
   const { t } = useTranslation()
   const titleRef = useScrollReveal<HTMLHeadingElement>()
-  const gridRef = useScrollReveal<HTMLDivElement>()
   const [entries, setEntries] = useState<JournalEntry[]>([])
 
   useEffect(() => {
@@ -42,7 +41,7 @@ export function Journal() {
         {t('journal.title')}
       </h2>
 
-      <div className={`${styles.grid} reveal-body`} ref={gridRef}>
+      <div className={styles.grid}>
         {entries.map((entry, index) => (
           <JournalCard 
             key={entry.id} 

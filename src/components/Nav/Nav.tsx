@@ -67,7 +67,7 @@ export const Nav: React.FC = () => {
         transition={{ ease: [0.77, 0, 0.175, 1], duration: prefersReducedMotion ? 0 : 0.3 }}
       >
         <div className={styles.container}>
-          <button className={styles.logo} onClick={handleLogoClick}>
+          <button className={`${styles.logo} gold-shimmer`} onClick={handleLogoClick}>
             FORMA
           </button>
 

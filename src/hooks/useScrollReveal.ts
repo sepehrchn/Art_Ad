@@ -38,7 +38,7 @@ export const useScrollReveal = <T extends HTMLElement>(options?: ScrollRevealOpt
         observer.unobserve(ref.current)
       }
     }
-  }, [options, ref])
+  }, [options?.once, options?.threshold, options?.rootMargin])
 
   return ref
 }

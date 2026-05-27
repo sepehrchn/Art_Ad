@@ -51,7 +51,7 @@ export const Hero: React.FC = () => {
         </Suspense>
       <div ref={contentRef} className={styles.content}>
         <div 
-          className={`${styles.eyebrow} reveal-label`}
+          className={`${styles.eyebrow} reveal-label gold-shimmer`}
         >
           {t('hero.eyebrow')}
         </div>

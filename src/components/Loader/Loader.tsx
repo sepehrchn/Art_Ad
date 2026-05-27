@@ -45,10 +45,14 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
 
   useEffect(() => {
     const sequence = async () => {
-      await controls.start('visible')
-      await controls.start('fill')
       if (prefersReducedMotion) {
         onComplete()
+      } else {
+        await controls.start('visible')
+        await controls.start('fill')
+        setTimeout(() => {
+          onComplete()
+        }, 300)
       }
     }
     sequence()
